@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Upload Audio</title>
+    <style>
+      /* Basic Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Global Styles */
+      body {
+        font-family: "Roboto", sans-serif;
+        background: #b3d8fd;
+        color: #333;
+        text-align: center;
+        padding: 40px;
+        animation: backgroundFade 10s infinite;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        animation: fadeIn 2s ease-out;
+      }
+
+      /* Form Styles */
+      form {
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 600px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        animation: slideIn 1s ease-out;
+      }
+
+      /* Hide the Audio: label */
+      form label {
+        display: none;
+      }
+
+      form input[type="file"] {
+        border: 2px solid #dadbdb;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        cursor: pointer;
+        background: lightgray;
+        color: #686868;
+        display: inline-block;
+        overflow: hidden;
+        position: relative;
+        transition: background 0.3s ease, transform 0.3s ease;
+      }
+
+      form input[type="file"]::file-selector-button {
+        display: none;
+      }
+
+      form input[type="file"]::before {
+        content: "Choose File";
+        display: inline-block;
+        background: lightcoral;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 16px;
+        transition: background 0.3s ease, transform 0.3s ease;
+      }
+
+      form input[type="file"]:hover::before {
+        background: darkred;
+        transform: scale(1.05);
+      }
+
+      form input[type="file"]:active::before {
+        background: darkred;
+        transform: scale(0.98);
+      }
+
+      form button {
+        background: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 15px 30px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        margin-top: 10px;
+        transition: background 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        outline: none;
+        animation: pulse 2s infinite;
+      }
+
+      form button:hover {
+        background: #2980b9;
+        transform: scale(1.05);
+      }
+
+      form button:active {
+        background: #1f639f;
+        transform: scale(0.98);
+      }
+
+      /* Back Button Styles */
+      a {
+        text-decoration: none;
+      }
+
+      a button {
+        background: #95a5a6;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 15px 30px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        margin-top: 20px;
+        transition: background 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        outline: none;
+      }
+
+      a button:hover {
+        background: #7f8c8d;
+        transform: scale(1.05);
+      }
+
+      a button:active {
+        background: #6c757d;
+        transform: scale(0.98);
+      }
+
+      /* Transcript Section Styles */
+      .transcription-container {
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 600px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        animation: slideIn 1s ease-out;
+      }
+
+      .transcription-container h2 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .transcription-container p {
+        font-size: 1rem;
+        color: #333;
+        white-space: pre-wrap; /* Preserve whitespace and line breaks */
+      }
+
+      /* Animation */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-100%);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes backgroundFade {
+        0% {
+          background: #f4f6f8;
+        }
+        50% {
+          background: #e0eafc;
+        }
+        100% {
+          background: #f4f6f8;
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        form input[type="file"] {
+          font-size: 14px;
+        }
+
+        form button {
+          font-size: 1rem;
+          padding: 10px 20px;
+        }
+
+        a button {
+          font-size: 1rem;
+          padding: 10px 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        form input[type="file"] {
+          font-size: 12px;
+        }
+
+        form button,
+        a button {
+          font-size: 0.9rem;
+          padding: 8px 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Upload Audio For Transcription</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Upload</button>
+    </form>
+    {% if transcription %}
+    <div class="transcription-container">
+      <h2>Transcription:</h2>
+      <p>{{ transcription }}</p>
+    </div>
+    {% endif %}
+    <a href="{% url 'audioapp:landing_page' %}"
+      ><button>Back to Landing Page</button></a
+    >
+  </body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Landing Page</title>
+    <style>
+      /* Basic Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Global Styles */
+      body {
+        font-family: "Roboto", sans-serif;
+        background: linear-gradient(135deg, #1f1c2c, #928dab);
+        color: #fff;
+        text-align: center;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        animation: backgroundFade 10s infinite;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 40px;
+        animation: fadeIn 2s ease-out;
+        text-shadow: 5px 7px 8px rgba(0, 0, 0, 1);
+      }
+
+      /* Button Styles */
+      a {
+        text-decoration: none;
+        margin: 10px;
+      }
+
+      button {
+        background: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        padding: 15px 30px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        margin: 10px;
+        transition: background 0.3s ease, transform 0.3s ease,
+          box-shadow 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        outline: none;
+      }
+
+      button:hover {
+        background: #2980b9;
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      button:active {
+        background: #1f639f;
+        transform: scale(0.98);
+      }
+
+      /* Container Styles */
+      .info {
+        margin-top: 40px;
+        font-size: 1.1rem;
+        line-height: 1.5;
+        text-align: left;
+        max-width: 600px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 2s ease-out;
+      }
+
+      .info p {
+        margin: 10px 0;
+      }
+
+      /* Animation */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes backgroundFade {
+        0% {
+          background: linear-gradient(135deg, #1f1c2c, #928dab);
+        }
+        50% {
+          background: linear-gradient(135deg, #928dab, #271187);
+        }
+        100% {
+          background: linear-gradient(135deg, #1f1c2c, #928dab);
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        button {
+          font-size: 1rem;
+          padding: 10px 20px;
+        }
+
+        .info {
+          font-size: 1rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        button {
+          font-size: 0.9rem;
+          padding: 8px 16px;
+        }
+
+        .info {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to the Speech To Text Transcription App</h1>
+    <div>
+      <a href="{% url 'audioapp:upload_page' %}">
+        <button>Upload Audio</button>
+      </a>
+      <a href="{% url 'audioapp:record_page' %}">
+        <button>Record Audio</button>
+      </a>
+    </div>
+    <div class="info">
+      <p>
+        <strong>Developed by:</strong> SANJITH M | SHIVAM MITTAL | SHIVAM PATEL
+        | SOURAV ROY
+      </p>
+      <p>
+        <strong>USN:</strong> 1JB21CS131 | 1JB21CS138 | 1JB21CS139 | 1JB21CS150
+      </p>
+      <p><strong>Guide:</strong> Dr. BINDIYA M K</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Record Audio</title>
+    <style>
+      /* Basic Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Global Styles */
+      body {
+        font-family: "Roboto", sans-serif;
+        background: #b3d8fd;
+        color: #333;
+        text-align: center;
+        padding: 40px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        animation: fadeIn 2s ease-out;
+      }
+
+      /* Container for all components */
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Button Styles */
+      button {
+        background: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 15px 30px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        margin: 10px;
+        transition: background 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        outline: none;
+      }
+
+      button:disabled {
+        background: #95a5a6;
+        cursor: not-allowed;
+      }
+
+      button:hover {
+        background: #2980b9;
+        transform: scale(1.05);
+      }
+
+      button:active {
+        background: #1f639f;
+        transform: scale(0.98);
+      }
+
+      /* Audio Playback Styles */
+      audio {
+        margin: 20px auto;
+        border: 2px solid #3498db;
+        border-radius: 5px;
+        padding: 10px;
+        max-width: 100%;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Form Styles */
+      #recordedAudioForm {
+        display: none;
+        margin-top: 20px;
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      #recordedAudioForm input[type="file"] {
+        border: 2px solid #3498db;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      #recordedAudioForm button {
+        background: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 15px 30px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: background 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        outline: none;
+      }
+
+      #recordedAudioForm button:hover {
+        background: #2980b9;
+        transform: scale(1.05);
+      }
+
+      #recordedAudioForm button:active {
+        background: #1f639f;
+        transform: scale(0.98);
+      }
+
+      /* Transcription Section Styles */
+      .transcription-container {
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 30px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: left;
+      }
+
+      .transcription-container h2 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .transcription-container p {
+        font-size: 1rem;
+        color: #333;
+        white-space: pre-wrap; /* Preserve whitespace and line breaks */
+      }
+
+      /* Back Button Styles */
+      .back-button {
+        background: #95a5a6;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 15px 30px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        margin-top: 20px;
+        transition: background 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        outline: none;
+      }
+
+      .back-button:hover {
+        background: #7f8c8d;
+        transform: scale(1.05);
+      }
+
+      .back-button:active {
+        background: #6c757d;
+        transform: scale(0.98);
+      }
+
+      /* Animation */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        button {
+          font-size: 1rem;
+          padding: 10px 20px;
+        }
+
+        audio {
+          width: 100%;
+          padding: 5px;
+        }
+
+        #recordedAudioForm input[type="file"] {
+          font-size: 14px;
+        }
+
+        #recordedAudioForm button {
+          font-size: 1rem;
+          padding: 10px 20px;
+        }
+
+        .back-button {
+          font-size: 1rem;
+          padding: 10px 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        button {
+          font-size: 0.9rem;
+          padding: 8px 16px;
+        }
+
+        audio {
+          width: 100%;
+          padding: 5px;
+        }
+
+        #recordedAudioForm input[type="file"] {
+          font-size: 12px;
+        }
+
+        #recordedAudioForm button,
+        .back-button {
+          font-size: 0.9rem;
+          padding: 8px 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Record Audio For Transcription</h1>
+    <div class="container">
+      <button id="recordButton">Start Recording</button>
+      <button id="stopButton" disabled>Stop Recording</button>
+      <audio id="audioPlayback" controls></audio>
+      <form id="recordedAudioForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" id="recordedAudioFile" name="audio" />
+        <button type="submit">Upload Recorded Audio</button>
+      </form>
+      {% if transcription %}
+      <div class="transcription-container">
+        <h2>Transcript</h2>
+        <p>{{ transcription }}</p>
+      </div>
+      {% endif %}
+      <a href="{% url 'audioapp:landing_page' %}">
+        <button class="back-button">Back to Landing Page</button>
+      </a>
+    </div>
+
+    <script>
+      let recordButton = document.getElementById("recordButton");
+      let stopButton = document.getElementById("stopButton");
+      let audioPlayback = document.getElementById("audioPlayback");
+      let recordedAudioForm = document.getElementById("recordedAudioForm");
+      let recordedAudioFile = document.getElementById("recordedAudioFile");
+
+      let mediaRecorder;
+      let audioChunks = [];
+
+      recordButton.addEventListener("click", async () => {
+        let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.start();
+        recordButton.disabled = true;
+        stopButton.disabled = false;
+
+        mediaRecorder.addEventListener("dataavailable", (event) => {
+          audioChunks.push(event.data);
+        });
+
+        mediaRecorder.addEventListener("stop", () => {
+          let audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+          let audioUrl = URL.createObjectURL(audioBlob);
+          audioPlayback.src = audioUrl;
+          audioPlayback.play();
+          let file = new File([audioBlob], "recorded_audio.wav", {
+            type: "audio/wav",
+          });
+          let dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          recordedAudioFile.files = dataTransfer.files;
+          recordedAudioForm.style.display = "block";
+        });
+      });
+
+      stopButton.addEventListener("click", () => {
+        mediaRecorder.stop();
+        recordButton.disabled = false;
+        stopButton.disabled = true;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1 @@
+Good afternoon, everyone. This is the demo of my project, speech recognition. I hope it recognizes my voice well.

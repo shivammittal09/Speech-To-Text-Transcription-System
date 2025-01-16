@@ -1,0 +1,106 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Audio Transcription</title>
+  </head>
+  <body>
+    <h1>Upload or Record Audio for Transcription</h1>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Upload</button>
+    </form>
+
+    {% if latest_audio %}
+    <h2>Last Uploaded Audio:</h2>
+    <strong>{{ latest_audio.audio.name }}</strong><br />
+    {% if latest_audio.transcript %}
+    <p>{{ latest_audio.transcript }}</p>
+    {% else %}
+    <p>No transcript available.</p>
+    {% endif %} {% endif %}
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Upload or Record Audio</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <h1>Upload audio for transcription</h1>
+    <form id="uploadForm" method="post" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Upload</button>
+    </form>
+
+    <h2>Record instead</h2>
+    <button id="recordButton">Start Recording</button>
+    <button id="stopButton" disabled>Stop Recording</button>
+    <audio id="audioPlayback" controls></audio>
+    <form
+      id="recordedAudioForm"
+      method="post"
+      enctype="multipart/form-data"
+      style="display: none"
+    >
+      {% csrf_token %}
+      <input type="file" id="recordedAudioFile" name="audio" />
+      <button type="submit">Upload Recorded Audio</button>
+    </form>
+
+    {% if latest_audio %}
+    <h2>Latest Audio File:</h2>
+    <strong>{{ latest_audio.audio.name }}</strong><br />
+    {% if latest_audio.transcript %}
+    <p>{{ latest_audio.transcript }}</p>
+    {% else %}
+    <p>No transcript available.</p>
+    {% endif %} {% endif %}
+
+    <script>
+      let recordButton = document.getElementById("recordButton");
+      let stopButton = document.getElementById("stopButton");
+      let audioPlayback = document.getElementById("audioPlayback");
+      let recordedAudioForm = document.getElementById("recordedAudioForm");
+      let recordedAudioFile = document.getElementById("recordedAudioFile");
+
+      let mediaRecorder;
+      let audioChunks = [];
+
+      recordButton.addEventListener("click", async () => {
+        let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.start();
+        recordButton.disabled = true;
+        stopButton.disabled = false;
+
+        mediaRecorder.addEventListener("dataavailable", (event) => {
+          audioChunks.push(event.data);
+        });
+
+        mediaRecorder.addEventListener("stop", () => {
+          let audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+          let audioUrl = URL.createObjectURL(audioBlob);
+          audioPlayback.src = audioUrl;
+          audioPlayback.play();
+          let file = new File([audioBlob], "recorded_audio.wav", {
+            type: "audio/wav",
+          });
+          let dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          recordedAudioFile.files = dataTransfer.files;
+          recordedAudioForm.style.display = "block";
+        });
+      });
+
+      stopButton.addEventListener("click", () => {
+        mediaRecorder.stop();
+        recordButton.disabled = false;
+        stopButton.disabled = true;
+      });
+    </script>
+  </body>
+</html>
