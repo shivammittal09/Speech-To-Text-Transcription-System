@@ -11,7 +11,7 @@ import time
 # AssemblyAI API configuration
 upload_endpoint = 'https://api.assemblyai.com/v2/upload'
 transcript_endpoint = 'https://api.assemblyai.com/v2/transcript'
-API_KEY_ASSEMBLYAI = settings.API_KEY_ASSEMBLYAI
+API_KEY_ASSEMBLYAI = settings.API_KEY_ASSEMBLYAI or os.environ.get("API_KEY_ASSEMBLYAI")
 
 headers_auth_only = {'authorization': API_KEY_ASSEMBLYAI}
 headers = {
