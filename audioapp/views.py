@@ -7,6 +7,7 @@ from .models import AudioFile
 import os
 import requests
 import time
+import environ
 
 # AssemblyAI API configuration
 upload_endpoint = 'https://api.assemblyai.com/v2/upload'
