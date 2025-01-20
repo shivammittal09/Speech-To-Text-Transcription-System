@@ -1,0 +1,13 @@
+
+services:
+  - type: web
+    name: audio-transcription-system
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: "python manage.py migrate && gunicorn audioapp.wsgi"
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: API_KEY_ASSEMBLYAI
+        sync: false
